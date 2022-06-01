@@ -22,6 +22,11 @@
                     <h5 id="usercheck"></h5>
                 </div>
                 <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input type="email" name="email" id="email" class="form-control">
+                    <h5 id="emailcheck"></h5>
+                </div>
+                <div class="form-group">
                     <label for="password">Password: </label>
                     <input type="text" name="pass" id="password" class="form-control">
                     <h5 id="passcheck"></h5>
@@ -42,10 +47,12 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#usercheck').hide();
+            $('#emailcheck').hide();
             $('#passcheck').hide();
             $('#conpasscheck').hide();
 
             var user_err = true;
+            var email_err = true;
             var pass_err = true;
             var conpass_err = true;
 
@@ -75,6 +82,34 @@
                 }
                 else {
                     $('#usercheck').hide();
+                }
+            }
+            $('#email').keyup(function () {
+                email_check();
+            })
+            function email_check() {
+                var emailstr = $('#email').val();
+                if (emailstr.length == '') {
+                    $('#emailcheck').show();
+                    $('#emailcheck').html("**Please Fill the field");
+                    $('#emailcheck').focus();
+                    $('#emailcheck').css("color", "red");
+                    email_err = false;
+                    return false;
+                }
+                else {
+                    $('#emailcheck').hide();
+                }
+                if ((emailstr.indexOf("@") < 0) || (emailstr.indexOf(".") < 0)) {
+                    $('#emailcheck').show();
+                    $('#emailcheck').html("**Email must contain @ and dot(.)");
+                    $('#emailcheck').focus();
+                    $('#emailcheck').css("color", "red");
+                    email_err = false;
+                    return false;
+                }
+                else {
+                    $('#emailcheck').hide();
                 }
             }
             $('#password').keyup(function () {
@@ -125,12 +160,14 @@
             }
                $('#submitbtn').click(function(){
                    user_err=true;
+                   email_err = true;
                    pass_err=true;
                    conpass_err=true;
                    username_check();
+                   email_check();
                    password_check();
                    con_passwrd();
-                   if((user_err==true)&&(pass_err==true)&&(conpass_err==true)){
+                   if((user_err==true)&&(email_err==true)&&(pass_err==true)&&(conpass_err==true)){
                         return true;
                    }
                    else{
